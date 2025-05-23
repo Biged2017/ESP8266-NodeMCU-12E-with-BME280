@@ -1,86 +1,86 @@
- **Fancy Gauges & Chart for the ESP8266 With BME280 Sensor**
+ ** Необычные датчики и график для ESP8266 с датчиком BME280**
  
  https://www.instructables.com/id/ESP8266-NodeMCU-With-BME280-Gauges-Chart/
  
- ![ScreenShot](https://github.com/optio50/ESP8266-NodeMCU-12E-with-BME280/blob/master/1%20Week%20Chart.png?raw=true "1 Week Chart")
+ ![Скриншот](https://github.com/optio50/ESP8266-NodeMCU-12E-with-BME280/blob/master/1%20Week%20Chart.png?raw=true "График за 1 неделю")
  
 
- Fancy Gauges and Chart for your ESP8266 NodeMCU Development board with BME280 Temperature, Humidity and Pressure sensor. Thingspeak will store all your data in the cloud for retrieval at any time for years (hopefully) to come. The gauges and chart are populated from the data stored at thingspeak and are updated automatically every 5 minuets.
+ Необычные датчики и схема для вашей платы разработки ESP8266 NodeMCU с датчиком температуры, влажности и давления BME280. Thingspeak будет хранить все ваши данные в облаке для извлечения в любое время в течение многих лет (надеюсь). Датчики и диаграмма заполняются на основе данных, хранящихся в thingspeak, и обновляются автоматически каждые 5 минут.
 
-Needed Items:
+Необходимые товары:
 
-ESP8266 NodeMCU Development board ($3.79 from Banggood.com Hong Kong)
+Плата для разработки ESP8266 NodeMCU ($ 3,79 от Banggood.com Гонконг)
 
-Bosch BME280 ($5.63 from Banggood.com Hong Kong)
+Bosch BME280 ($ 5,63 от Banggood.com Гонконг)
 
-Breadboard Jumpers ($3.09 from Banggood.com Hong Kong)
+Перемычки для макетной платы ($ 3,09 от Banggood.com Гонконг)
 
-Breadboard ($2.28 from Banggood.com Hong Kong)
+Макетная плата ($ 2,28 от Banggood.com Гонконг)
 
-Power Supply, Free if you have a micro USB phone charger
+Блок питания, бесплатно, если у вас есть зарядное устройство для телефона micro USB
 
-Micro USB cable, Free if you have one already
+Кабель Micro USB, бесплатно, если он у вас уже есть
 
-Arduino IDE, Free Download
+Arduino IDE, скачать бесплатно
 
 
-1. Create a free Thingspeak account and new channel at https://thingspeak.com , Call the channel "ESP8266-NodeMCU-12E-BME280"
+1. Создайте бесплатную учетную запись Thingspeak и новый канал по адресу https://thingspeak.com, Назовите канал "ESP8266-NodeMCU-12E-BME280".
 
-2. The new channel should have 3 fields named Temperature Humidity Pressure in that specific order (Note First Letter capitalization).
+2. В новом канале должно быть 3 поля с именами Температура, влажность, давление в определенном порядке (обратите внимание на первую букву заглавными буквами).
 
-3. Take note of your new "channel ID" XXXXXX under "Channel Settings"
+3. Обратите внимание на ваш новый "идентификатор канала" XXXXXX в разделе "Настройки канала".
 
-4. Click the "API Keys" link and take note of your "API Write" and "Read API Keys" XXXXXXXXXXXXXXX. Also, make this a public channel under sharing.
+4. Нажмите на ссылку "Ключи API" и обратите внимание на ваши "Запись в API" и "Чтение ключей API" XXXXXXXXXXXXXXX. Также сделайте этот канал общедоступным в разделе "Общий доступ".
 
-5. Create a second Thingspeak channel that will hold the "Today" (since midnight) High Low data. Call it "BME280 Daily High Low Data"
+5. Создайте второй канал Thingspeak, который будет содержать "Сегодня" (с полуночи) Данные о высоком минимуме. Назовите это "Данные о высоком минимуме BME280 за день".
 
-6. This new channel should have 6 fields named Tmax Tmin Hmax Hmin Pmax Pmin in that specific order (Note First Letter capitalization).
+6. Этот новый канал должен содержать 6 полей с именами Tmax, Tmin, Hmax, Hmin, Pmax, Pmin в этом определенном порядке (обратите внимание на первую букву заглавными буквами).
 
-7. Take note of the "BME280 Daily High Low Data" "channel ID" , "Read" & "Write API keys" just like in the above steps.
+7. Обратите внимание на "Данные BME280 Daily High Low Data", "идентификатор канала", "Чтение" и "Запись ключей API", как в описанных выше шагах.
 
-8. Follow the instructions for installing the Arduino IDE & ESP8266 core at http://easy-esp.com/getting-started-with-easyesp-...
+8. Следуйте инструкциям по установке Arduino IDE и ядра ESP8266 по адресу http://easy-esp.com/getting-started-with-easyesp-...
 
-9. Fire up the Arduino IDE so we can install the four libraries we will need.
+9. Запустите Arduino IDE, чтобы мы могли установить четыре необходимые нам библиотеки.
 
-10. You will need the "Adafruit Unified Sensor Driver" library, install it in the "Library Manager" in Arduino IDE. Menu Sketch --> Include Library --> Manage Libraries do a search by Type = "Recommended" Topic = "Sensors" then put the words Adafruit Unified Sensor Driver in the search box. The one you want says "Adafruit Unified Sensor Driver by Adafruit"
+10. Вам понадобится библиотека "Adafruit Unified Sensor Driver", установите ее в "Диспетчере библиотек" в Arduino IDE. Эскиз меню -> Включить библиотеку -> Управление библиотеками выполните поиск по типу = "Рекомендуемая" тема = "Датчики", затем введите слова Adafruit Unified Sensor Driver в поле поиска. Тот, который вам нужен, гласит "Adafruit Unified Sensor Driver от Adafruit".
 
-11. In addition, you will also require the "Adafruit BME280 Library" install it in the "Library Manager" in Arduino IDE. Menu Sketch --> Include Library --> Manage Libraries do a search by Type = "Recommended" Topic = "Sensors" then put the words Adafruit BME280 Library in the search box. The one you want says "Adafruit BME280 Library by Adafruit"
+11. Кроме того, вам также потребуется "Библиотека Adafruit BME280", установите ее в "Менеджер библиотек" в Arduino IDE. Эскиз меню -> Включить библиотеку -> Управление библиотеками выполните поиск по типу = "Рекомендуемая" тема = "Датчики", затем введите слова Adafruit BME280 Library в поле поиска. На той, которая вам нужна, написано "Библиотека Adafruit BME280 от Adafruit"
 
-12. Another library you need is Wire.h , install it in the "Library Manager" in Arduino IDE. Menu, Sketch --> Include Library --> Manage Libraries Do a search by Type = "Contributed" Topic = "Signal Input/Output" then put the word Wire in the search box. The one you want says "Wire Built-in by Arduino" Most likely at the bottom of the selection.
+12. Еще одна нужная вам библиотека - Wire.h , установите ее в "Диспетчере библиотек" в Arduino IDE. Меню, Эскиз -> Включить библиотеку -> Управление библиотеками Выполните поиск по типу = "Внесенный вклад" Тема = "Ввод / вывод сигнала", затем введите слово Wire в поле поиска. Тот, который вам нужен, говорит "Встроенный провод от Arduino", скорее всего, в нижней части выбора.
 
-13. One more library, ESP8266WiFi , install it in the "Library Manager" in Arduino IDE. Menu, Sketch --> Include Library --> Manage Libraries Do a search by Type = "Contributed" Topic = "Communication" then put the word ESP8266wifi in the search box. The one you want says "ESP8266wifi Built-in by Ivan Grokhotkov"
+13. Еще одна библиотека, ESP8266WiFi, установите ее в "Менеджер библиотек" в Arduino IDE. Меню, Эскиз -> Включить библиотеку -> Управление библиотеками Выполните поиск по типу = "Внесенный вклад" Тема = "Общение" затем введите слово ESP8266WiFi в поле поиска. На том, который вам нужен, написано "Встроенный ESP8266WiFi от Ивана Грохоткова".
 
-14. The I2C address for BME280 is hardcoded in the Adafruit_BME280.h file (look for the line #define BME280_ADDRESS 0x77) inside the Adafruit_BME280_Library folder. Adafruit’s BME sensor modules are hard-wired to use the I2C address of 0x77. But the BME280 can have a slightly different I2C address (0x76) if its external SDO pin is grounded. If you are using the sensor modules from a third party, it is likely that it’s address would not match with the default value in the Adafruit library. For example, for most of the BME280 sensor modules available on eBay or Aliexpress have their I2C address to be 0x76. If you dont get a response from the sensor using the default address set in the Adafruit_BME280.h file, you might need to change it to 0x76.
+14. Адрес I2C для BME280 жестко задан в файле Adafruit_BME280.h (найдите строку #define BME280_ADDRESS 0x77) внутри папки Adafruit_BME280_Library. Модули датчиков BME Adafruit жестко подключены для использования адреса I2C 0x77. Но BME280 может иметь немного другой адрес I2C (0x76), если его внешний вывод SDO заземлен. Если вы используете сенсорные модули сторонних производителей, вполне вероятно, что их адрес не будет совпадать со значением по умолчанию в библиотеке Adafruit. Например, для большинства сенсорных модулей BME280, доступных на eBay или Aliexpress, их адрес I2C равен 0x76. Если вы не получаете ответа от датчика, используя адрес по умолчанию, установленный в файле Adafruit_BME280.h, возможно, вам потребуется изменить его на 0x76.
 
-BME280 & ESP8266 Connection Points. ESP8266 3.3V to BME280 Vin, ESP8266 GND to BME280 GND, ESP8266 D4 to BME280 SCL, ESP8266 D3 to BME280 SDA. 15. Open the provided ESP8266-NodeMCU-12E-BME280.html file in a text editor and enter your "ESP8266-NodeMCU-12E-BME280" (The first channel you created) "Channel ID" & "Read API Key" for the variables key1 & chan1. Also enter the "Read API Key" and "Channel ID" for "BME280 Daily High Low Data" (The second channel you created) for key2 and chan2. In addition, enter your timezone offset from UTC. As in -5 for me. All the values must be inside the provided single quotes 'XXXXX'. Save and exit the text editor.
+Точки подключения BME280 и ESP8266. ESP8266 3,3В к BME280 Vin, ESP8266 GND к BME280 GND, ESP8266 D4 к BME280 SCL, ESP8266 D3 к BME280 SDA. 15. Откройте прилагаемый ESP8266-NodeMCU-12E-BME280.html создайте файл в текстовом редакторе и введите свой "ESP8266-NodeMCU-12E-BME280" (первый созданный вами канал), "Идентификатор канала" и "Ключ чтения API" для переменных key1 и chan1. Также введите "Read API Key" и "Channel ID" для "BME280 Daily High Low Data" (второй созданный вами канал) для key2 и chan2. Кроме того, введите смещение вашего часового пояса от UTC. Для меня это значение равно -5. Все значения должны быть заключены в предоставленные одинарные кавычки 'XXXXX'. Сохраните и выйдите из текстового редактора.
 
-15. Plug in your ESP8266 with the USB cable to your computer then select your serial port to be the USB port.
+15. Подключите устройство ESP8266 с помощью USB-кабеля к компьютеру, затем выберите последовательный порт в качестве USB-порта.
 
-Linux users may have to change ownwership of the USB port to communicate with the /dev/ttyUSB0 as in 'sudo chown yourusername /dev/ttyUSB0' or what ever you selected as your port in setup.
+Пользователям Linux, возможно, придется изменить собственное управление USB-портом для связи с / dev / ttyUSB0, как в 'sudo chown yourusername / dev / ttyUSB0' или с тем, что вы когда-либо выбирали в качестве своего порта в настройках.
 
-16. Next we will program the ESP8266. Connect a USB cable between your ESP8266 and your computer.
+16. Далее мы запрограммируем ESP8266. Подключите USB-кабель между вашим ESP8266 и вашим компьютером.
 
-Load the provided New_BME_Sensor.ino file into the Arduino IDE. Your BME280 sensor should be hooked to D3 (SDA) & D4 (SCL) on the ESP8266. Enter your "ESP8266-NodeMCU-12E-BME280" (The first channel you created) "Write Key" "Wireless SSID" & "Password" into the correct section of the sketch. Then click menu item "Sketch" & "Upload". After you upload the sketch (Progress reaches 100%) to your ESP8266 you can open the serial monitor (Icon top right looks like a magnifiying glass) and see your data print out after 5 Minutes, every 5 Minutes. The data gets sent to thingspeak at 5 min intervals so it will be some time before you have meaningful chart data but you should have gauge readings after 5 min.
+Загрузите предоставленный файл New_BME_Sensor.ino в Arduino IDE. Ваш датчик BME280 должен быть подключен к D3 (SDA) и D4 (SCL) на ESP8266. Введите свой "ESP8266-NodeMCU-12E-BME280" (первый созданный вами канал), "Ключ записи", "SSID беспроводной сети" и "Пароль" в правильный раздел эскиза. Затем нажмите пункт меню "Эскиз" и "Загрузить". После загрузки эскиза (прогресс достигает 100%) на устройство ESP8266 вы можете открыть последовательный монитор (значок вверху справа выглядит как увеличительное стекло) и просматривать распечатку ваших данных через 5 минут, каждые 5 минут. Данные отправляются на thingspeak с интервалом в 5 минут, так что пройдет некоторое время, прежде чем у вас появятся значимые данные графика, но через 5 минут вы должны получить показания датчика.
 
-Make sure you get a correct readings from the BME280 in the serial monitor.
+Убедитесь, что вы получили правильные показания BME280 на последовательном мониторе.
 
-The first measurement will likely be an invalid nan.
+Первое измерение, скорее всего, будет неверным nan.
 
-Wait a few minuets till the next reading and verify the readings look good.
+Подождите несколько минут до следующего считывания и убедитесь, что показания выглядят нормально.
 
-17. Now, While the data is slowly uploading to thingspeak lets do some tweaking to get some additional data from whats being uploaded. Go back to the thingspeak website and in the Thingspeak "BME280 Daily High Low Data" channel page (The second channel you created) click the green "MATLAB Analysis" button. Select Template "Custom (No Starter Code)"
+17. Теперь, пока данные медленно загружаются в thingspeak, давайте сделаем некоторые настройки, чтобы получить некоторые дополнительные данные из того, что загружается. Вернитесь на веб-сайт thingspeak и на странице канала Thingspeak "BME280 Daily High Low Data" (второй созданный вами канал) нажмите зеленую кнопку "Анализ MATLAB". Выберите шаблон "Пользовательский (без начального кода)"
 
-18. Name the MATLAB Analysis "Calculate Min Max Since Midnight".
+18. Назовите анализ MATLAB "Вычислять минимальное максимальное значение с полуночи".
 
-19. Copy the MATLAB Analysis.txt code into the provided space. Enter the "channel ID" for "ESP8266-NodeMCU-12E-BME280" (The first channel you created) into "readChannelID". Enter the "BME280 Daily High Low Data" (The second channel you created) Write "Channel ID" & "Write Key" into writeNewChannelID & writeAPIKey respectivly. I know it sounds confusing (read it again). Click save and run. If you did it correcty and the read channel is public you will see no errors and it successfully prints the values. Note, You may see an error if no data has been uploaded to that channel yet. Despite the error continue. If desired you can revisit Click save and run to make sure it works once data has been uploaded.
+19. Скопируйте MATLAB Analysis.txt код в предоставленное место. Введите "идентификатор канала" для "ESP8266-NodeMCU-12E-BME280" (первый созданный вами канал) в поле "readChannelID". Введите "Ежедневные максимальные и минимальные данные BME280" (второй созданный вами канал) Введите "Идентификатор канала" и "Ключ записи" в writeNewChannelID и writeAPIKey соответственно. Я знаю, это звучит запутанно (прочтите еще раз). Нажмите сохранить и запустить. Если вы все сделали правильно и канал чтения общедоступен, вы не увидите ошибок и он успешно напечатает значения. Обратите внимание, вы можете увидеть сообщение об ошибке, если на этот канал еще не были загружены данные. Несмотря на ошибку, продолжайте. При желании вы можете повторно нажать "Сохранить" и "Запустить", чтобы убедиться, что это работает после загрузки данных.
 
-20. Next, we need to create a "Time Control" to fire this code every 5 min and our data gets written to the channel "BME280 Daily High Low Data" (The second channel you created). From the main page of "BME280 Daily High Low Data" (The second channel you created) select Apps at the top. Under actions select "TimeControl" then the Green button "New TimeControl". Name it "Send High Low Temps ESP8266". Select your time zone if needed and select "Recurring" under Frequency. Select Minute under Recurrence. Set to run every 5 Minutes. Action should be MATLAB Analysis and "Code to Execute" is "Calculate Min Max Since Midnight". Save TimeControl.
+20. Далее нам нужно создать "Контроль времени" для запуска этого кода каждые 5 минут, и наши данные будут записаны в канал "BME280 Daily High Low Data" (второй созданный вами канал). На главной странице "BME280 Daily High Low Data" (второй созданный вами канал) выберите Приложения вверху. В разделе "Действия" выберите "TimeControl", затем зеленую кнопку "Новый TimeControl". Назовите это "Отправка высоких и низких значений температуры ESP8266". Выберите свой часовой пояс, если необходимо, и выберите "Повторяющийся" в разделе "Частота". Выберите "Минута" в разделе "Повторяемость". Установите для запуска каждые 5 минут. Действием должен быть анализ MATLAB, а "Код для выполнения" - "Вычислить минимальное максимальное значение с полуночи". Сохраните контроль времени.
 
-Edit the HTML files and look for comments that say "******** Change Me 1 of 8 *********" Change these to your preference.
+Отредактируйте HTML-файлы и найдите комментарии, в которых говорится "******** Измените мне 1 из 8 *********" Измените их по своему усмотрению.
 
-Notes:
+Примечания:
 
-Some of the text fields and the weekly chart will not populate correctly until you have a full day and full week of data for the 24 Hr and Week section and chart.
-Once you have a bunch of data you can zoom in on the charts with the mouse wheel (Right Click to Reset). You can also have a fourth gauge (as seen in the screenshots) from another sensor from another channel but I have commeted out the relevant portions. If you feel savy, hook it up. There is also some timing issues to be aware of. You likely will not have the absolute most current data but it should always be less than 5 Minutes old. This comes from when the timing control gets fired, When the data was sent from the ESP8266 and when you loaded / refreshed the web page.
+Некоторые текстовые поля и недельный график не будут заполнены корректно, пока у вас не будет данных за полный день и неделю для раздела "24 часа и неделя" и графика.
+Как только у вас будет куча данных, вы можете увеличить масштаб графиков с помощью колесика мыши (щелкните правой кнопкой мыши для сброса). Вы также можете использовать четвертый датчик (как показано на скриншотах) от другого датчика с другого канала, но я выделил соответствующие части. Если вы чувствуете себя уверенным, подключите его. Следует также учитывать некоторые временные проблемы. Скорее всего, у вас не будет самых последних данных, но они всегда должны быть меньше 5 минут назад. Это происходит при срабатывании регулятора синхронизации, когда данные были отправлены с ESP8266 и когда вы загрузили / обновили веб-страницу.
 
 Open the provided ESP8266-NodeMCU-12E-BME280.html file in your web browser and you should see the gauges and chart populated.
